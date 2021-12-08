@@ -16,13 +16,29 @@ namespace 번역기_프로젝트
 {
     public partial class Form1 : Form
     {
-        bool direct = false; // false : 한국 -> 다른 언어, true : 다른 언어 -> 한국
+        // false : 한국어 -> 다른 언어, true : 다른 언어 -> 한국어
+        bool direct = false; 
         public Form1()
         {
             InitializeComponent();
+            Text = "번역기";
         }
-
         private void button1_Click(object sender, EventArgs e)
+        {
+            if (direct)
+            {
+                // 한국어 -> 다른 언어
+                button1.Text = "▶";
+                direct = false;
+            }
+            else
+            {
+                // 다른 언어 -> 한국어
+                button1.Text = "◀";
+                direct = true;
+            }
+        }
+        private void button2_Click(object sender, EventArgs e)
         {
             string url = "https://openapi.naver.com/v1/papago/n2mt";
 
@@ -33,6 +49,7 @@ namespace 번역기_프로젝트
             string query; // 번역할 문장
             string source; // 출발 언어
             string target; // 도착 언어
+
 
             if (direct)
             {
@@ -174,22 +191,5 @@ namespace 번역기_프로젝트
                 richTextBox2.Text = json["message"]["result"]["translatedText"].ToString();
             }
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if(direct)
-            {
-                // 한국어 -> 다른 언어
-                button2.Text = "▶";
-                direct = false;
-            }
-            else
-            {
-                // 다른 언어 -> 한국어
-                button2.Text = "◀";
-                direct = true;
-            }
-        }
-
     }
 }
